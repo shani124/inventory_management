@@ -1,0 +1,91 @@
+<div class="maindiv">
+        <button (click)="open(content)">Create product</button>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let items of data$">
+                <td>{{items.name}}</td>
+                <td>{{items.description}}</td>
+                <td>{{items.quantity}}</td>
+                <td (click)="openupdatemodal(items.id,items.name,items.description,items.quantity,contentsa)" style="cursor: pointer;">edit</td>
+                <td (click)="deleteproduct(items.id)" style="cursor: pointer;">delete</td>
+            </tr>
+           
+        </table>
+</div>
+<!-- //createnew product -->
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Create Product</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		
+			<div class="mb-3">
+				<form class="createform" #myform="ngForm" (ngSubmit)="onSubmit()">
+                    <input type="text" class="createforminput" id="name" name="name" [(ngModel)]="name" minlength="3" required>
+
+                    <input type="text" class="createforminput" id="description" name="description" [(ngModel)]="description" minlength="3" required>
+
+                    <input type="number" class="createforminput" id="quantity" name="quantity" [(ngModel)]="quantity" required>
+                    <div *ngIf="myform.controls['name'].invalid && myform.controls['name'].touched">
+                        <div *ngIf="myform.controls?.['name']?.errors?.['required']">name is required.</div>
+                        <div *ngIf="myform.controls?.['name']?.errors?.['minlength']">name must be at least 2 characters long.</div>                        
+                    </div>
+                    <div *ngIf="myform.controls['description'].invalid && myform.controls['description'].touched">
+                        <div *ngIf="myform.controls?.['description']?.errors?.['required']">description is required.</div>
+                        <div *ngIf="myform.controls?.['description']?.errors?.['minlength']">description must be at least 2 characters long.</div>                        
+                    </div>
+                    <div *ngIf="myform.controls['quantity'].invalid && myform.controls['quantity'].touched">
+                        <div *ngIf="myform.controls?.['quantity']?.errors?.['required']">quantity is required.</div>
+                    </div>
+                </form>
+				
+			</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" [disabled]="!myform.form.valid" class="btn btn-outline-dark" (click)="onSubmit()">Save</button>
+	</div>
+</ng-template>
+
+<!-- update product -->
+<ng-template #contentsa let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="update-modal">Edit Product</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		
+			<div class="mb-3">
+				<form class="createform" #myform="ngForm">
+                    <input type="text" class="createforminput" [value]="updateobject.name" id="name" name="name" [(ngModel)]="updateobject.name">
+
+                    <input type="text" class="createforminput" [value]="updateobject.description" id="description" name="description" [(ngModel)]="updateobject.description" >
+
+                    <input type="number" class="createforminput" [value]="updateobject.quantity" id="quantity" name="quantity" [(ngModel)]="updateobject.quantity">
+                    <!-- <div *ngIf="myform.controls['name'].invalid && myform.controls['name'].touched">
+                        <div *ngIf="myform.controls?.['name']?.errors?.['required']">name is required.</div>
+                        <div *ngIf="myform.controls?.['name']?.errors?.['minlength']">name must be at least 2 characters long.</div>                        
+                    </div>
+                    <div *ngIf="myform.controls['description'].invalid && myform.controls['description'].touched">
+                        <div *ngIf="myform.controls?.['description']?.errors?.['required']">description is required.</div>
+                        <div *ngIf="myform.controls?.['description']?.errors?.['minlength']">description must be at least 2 characters long.</div>                        
+                    </div>
+                    <div *ngIf="myform.controls['quantity'].invalid && myform.controls['quantity'].touched">
+                        <div *ngIf="myform.controls?.['quantity']?.errors?.['required']">quantity is required.</div>
+                    </div> -->
+                </form>
+				
+			</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="onSubmitupdate()">Update</button>
+	</div>
+</ng-template>
